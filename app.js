@@ -2080,7 +2080,15 @@ function runLoadingScreen(onDone) {
 // ============================================================
 function registerSW() {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then((reg) => {
+        console.log('[SW] Registered successfully, scope:', reg.scope);
+      })
+      .catch((err) => {
+        console.error('[SW] Registration FAILED:', err);
+      });
+  } else {
+    console.warn('[SW] serviceWorker API not available in this browser.');
   }
 }
 
